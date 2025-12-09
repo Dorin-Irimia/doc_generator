@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-3_cgt&(%pjigg@wkiw0j_0ab#kjfjv*jz6!fv=q5eu3b*vm+p4
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [*]
 
 # Application definition
 
@@ -96,7 +96,7 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key type
