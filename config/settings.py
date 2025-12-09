@@ -127,17 +127,15 @@ MEDIA_ROOT = BASE_DIR / "media"
 LOGIN_URL = "citizen_login"
 LOGIN_REDIRECT_URL = "citizen_dashboard"
 
-# Email (pentru notificari) - consola in dev
-EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
-EMAIL_HOST = os.getenv("EMAIL_HOST", "")
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", "0")) if os.getenv("EMAIL_PORT") else None
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "").lower() == "true"
-EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "").lower() == "true"
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@example.test")
-SUPER_ADMIN_EMAIL = os.getenv("SUPER_ADMIN_EMAIL", "dorinirimia40@yahoo.com")
-SITE_BASE_URL = os.getenv("SITE_BASE_URL", "").rstrip("/")
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = "irimiadorin46@gmail.com"
+EMAIL_HOST_PASSWORD = "wzscdpicvvolomsm"
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Default primary key type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
