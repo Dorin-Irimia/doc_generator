@@ -133,9 +133,16 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = "irimiadorin46@gmail.com"
-EMAIL_HOST_PASSWORD = "wzscdpicvvolomsm"
+EMAIL_HOST_PASSWORD = "dbqdnwbimlujnooc"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Default primary key type
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@example.test")
+SUPER_ADMIN_EMAIL = os.getenv("SUPER_ADMIN_EMAIL", "dorinirimia40@yahoo.com")
+
+SITE_BASE_URL = "https://doc-generator-hudd.onrender.com"
 
 # Default primary key type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
