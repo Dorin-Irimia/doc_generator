@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-3_cgt&(%pjigg@wkiw0j_0ab#kjfjv*jz6!fv=q5eu3b*vm+p4
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 allowed_env = os.getenv("ALLOWED_HOSTS", "")
 if allowed_env:
     ALLOWED_HOSTS = [h.strip() for h in allowed_env.split(",") if h.strip()]
