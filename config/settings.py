@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-3_cgt&(%pjigg@wkiw0j_0ab#kjfjv*jz6!fv=q5eu3b*vm+p4
 
 DEBUG = True
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
