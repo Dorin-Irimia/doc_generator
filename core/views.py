@@ -1315,14 +1315,18 @@ def generate_document(request, citizen_id, template_slug):
         safe_context["municipality_address"] = (
             f"{muni.street} {muni.number}, {muni.city}, {muni.county} {muni.postal_code}".strip()
         )
+        # LOGO – folosim PATH LOCAL, nu URL
         if muni.header_logo:
-            safe_context["municipality_header_logo"] = _absolute_url(
-                muni.header_logo.url, request=request
-            )
+            safe_context["municipality_header_logo"] = f"file://{muni.header_logo.path}"
+        else:
+            safe_context["municipality_header_logo"] = ""
+
+        # BANNER – tot PATH LOCAL
         if muni.header_banner:
-            safe_context["municipality_header_banner"] = _absolute_url(
-                muni.header_banner.url, request=request
-            )
+            safe_context["municipality_header_banner"] = f"file://{muni.header_banner.path}"
+        else:
+            safe_context["municipality_header_banner"] = ""
+
 
     # campuri dinamice: daca exista si e GET, cere completare; daca POST, aplica valori sau underline
     dyn_fields = getattr(tmpl, "dynamic_fields", []) or []
