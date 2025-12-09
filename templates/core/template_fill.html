@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Completeaza campuri{% endblock %}
+{% block content %}
+<h1 class="h4 mb-3">Completeaza campurile dinamice</h1>
+<form method="post" class="card card-body shadow-sm">
+  {% csrf_token %}
+  <p class="text-muted small mb-3">Lasa gol pentru a se completa automat cu underline (____).</p>
+  <input type="hidden" name="citizen_id" value="{{ citizen.id }}">
+  <input type="hidden" name="template_slug" value="{{ template.slug }}">
+  {% for field in dynamic_fields %}
+    <div class="mb-3">
+      <label class="form-label">{{ field.label }} ({{ field.key }})</label>
+      <input type="text" name="{{ field.key }}" class="form-control" value="{{ field.initial|default:'' }}">
+      <div class="form-text">Underline implicit: {{ field.length }}</div>
+    </div>
+  {% empty %}
+    <p class="text-muted">Nu exista campuri dinamice. Continua pentru generare.</p>
+  {% endfor %}
+  <div class="d-flex gap-2">
+    <button class="btn btn-primary">Genereaza</button>
+    <a class="btn btn-secondary" href="{% url 'generate_select' %}">Inapoi</a>
+  </div>
+</form>
+{% endblock %}

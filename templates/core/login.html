@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Autentificare{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <h1 class="h4 mb-3 text-center">Conectare cetatean</h1>
+    <form method="post" class="card card-body shadow-sm">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="mb-3">
+        <label class="form-label">CNP</label>
+        {{ form.cnp }}
+        {{ form.cnp.errors }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Parola</label>
+        <div class="input-group">
+          {{ form.password }}
+          <button class="btn btn-outline-secondary" type="button" id="toggle-pass">👁</button>
+        </div>
+        {{ form.password.errors }}
+      </div>
+      <div class="mb-3 text-end">
+        <a href="{% url 'forgot_password_request' %}" class="small">Am uitat parola</a>
+      </div>
+      <button class="btn btn-primary w-100">Conecteaza-te</button>
+    </form>
+  </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const btn = document.getElementById("toggle-pass");
+  const input = document.getElementById("id_password");
+  if (btn && input) {
+    btn.addEventListener("click", () => {
+      if (input.type === "password") {
+        input.type = "text";
+        btn.textContent = "🙈";
+      } else {
+        input.type = "password";
+        btn.textContent = "👁";
+      }
+    });
+  }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Contul meu{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Salut, {{ citizen.full_name }}</h1>
+  <div class="d-flex gap-2">
+    <a class="btn btn-sm btn-outline-secondary" href="{% url 'citizen_self_edit' %}">Editeaza profil</a>
+    <a class="btn btn-sm btn-outline-primary position-relative" href="{% url 'citizen_chat' %}">
+      Chat cu primarie
+      {% if staff_msg_count %}
+        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">+{{ staff_msg_count }}</span>
+      {% endif %}
+    </a>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'confirm_email' %}">Confirma email</a>
+  </div>
+</div>
+
+<div class="mb-3">
+  <span class="fw-semibold">Status profil:</span>
+  <span class="badge bg-info text-dark">{{ citizen.get_profile_status_display }}</span>
+  {% if citizen.profile_status == "pending_validation" %}
+    <div class="text-muted small">Nu poti genera documente pana la validare.</div>
+  {% endif %}
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Documente primite</h5>
+        {% if documents %}
+          <ul class="list-group list-group-flush">
+            {% for doc in documents %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="fw-semibold">{{ doc.template.name }}</div>
+                  <small class="text-muted">{{ doc.created_at }}</small>
+                </div>
+                <div class="d-flex gap-2">
+                  <a class="btn btn-sm btn-outline-secondary" href="{% url 'document_preview' doc.id %}" target="_blank">Preview</a>
+                  <a class="btn btn-sm btn-primary" href="{{ doc.file.url }}" download>Descarca</a>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted mb-0">Nu ai documente inca.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Notificari</h5>
+        {% if notifications %}
+          <ul class="list-group list-group-flush">
+            {% for n in notifications %}
+              <li class="list-group-item">
+                <div class="fw-semibold">{{ n.title }}</div>
+                <div class="small text-muted">{{ n.created_at }}</div>
+                {% if n.message %}<div>{{ n.message }}</div>{% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted mb-0">Nicio notificare.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

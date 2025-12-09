@@ -1,20 +1,37 @@
 {% extends "base.html" %}
-{% block title %}Generează document{% endblock %}
+{% block title %}Genereaza document{% endblock %}
 {% block content %}
-<h1 class="h3 mb-3">Generează document</h1>
+<h1 class="h3 mb-3">{% if citizen_mode %}Cere document{% else %}Genereaza document{% endif %}</h1>
 
 <form method="post" class="row g-3">
   {% csrf_token %}
-  <div class="col-md-5">
-    <label class="form-label">Cetățean</label>
-    <select class="form-select" name="citizen_id" required>
-      <option value="">-- alege cetățean --</option>
-      {% for c in citizens %}
-      <option value="{{ c.pk }}">{{ c.full_name }} ({{ c.identifier }})</option>
-      {% endfor %}
-    </select>
-  </div>
-  <div class="col-md-5">
+  {% if municipalities %}
+    <div class="col-md-4">
+      <label class="form-label">Institutie</label>
+      <select class="form-select" name="municipality_id">
+        <option value="">-- alege institutie --</option>
+        {% for m in municipalities %}
+          <option value="{{ m.id }}"{% if selected_muni and selected_muni.id == m.id %} selected{% endif %}>{{ m.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  {% endif %}
+  {% if not citizen_mode %}
+    <div class="col-md-{{ municipalities|yesno:'4,5' }}">
+      <label class="form-label">Cetatean</label>
+      <select class="form-select" name="citizen_id" required>
+        <option value="">-- alege cetatean --</option>
+        {% for c in citizens %}
+        <option value="{{ c.pk }}">{{ c.full_name }} ({{ c.identifier }})</option>
+        {% endfor %}
+      </select>
+    </div>
+  {% endif %}
+  {% if citizen_mode %}
+    <input type="hidden" name="citizen_id" value="{{ citizens.0.pk }}">
+  {% endif %}
+
+  <div class="col-md-{{ municipalities|yesno:'4,5' }}">
     <label class="form-label">Template</label>
     <select class="form-select" name="template_slug" required>
       <option value="">-- alege template --</option>
@@ -24,8 +41,7 @@
     </select>
   </div>
   <div class="col-md-2 d-flex align-items-end">
-    <button class="btn btn-success w-100">Generează</button>
+    <button class="btn btn-success w-100">Genereaza</button>
   </div>
 </form>
 {% endblock %}
-
