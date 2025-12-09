@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Generează document{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Generează document</h1>
+
+<form method="post" class="row g-3">
+  {% csrf_token %}
+  <div class="col-md-5">
+    <label class="form-label">Cetățean</label>
+    <select class="form-select" name="citizen_id" required>
+      <option value="">-- alege cetățean --</option>
+      {% for c in citizens %}
+      <option value="{{ c.pk }}">{{ c.full_name }} ({{ c.identifier }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-5">
+    <label class="form-label">Template</label>
+    <select class="form-select" name="template_slug" required>
+      <option value="">-- alege template --</option>
+      {% for t in templates %}
+      <option value="{{ t.slug }}">{{ t.name }} ({{ t.get_output_type_display }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2 d-flex align-items-end">
+    <button class="btn btn-success w-100">Generează</button>
+  </div>
+</form>
+{% endblock %}
+

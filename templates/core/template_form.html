@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Template nou{% endblock %}
+
+{% block content %}
+
+<h1 class="h4 mb-3">Template nou</h1>
+
+<div class="row">
+    <div class="col-md-9">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="mb-3">
+                <label class="form-label">Nume template</label>
+                {{ form.name }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descriere</label>
+                {{ form.description }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tip document</label>
+                {{ form.output_type }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Conținut (HTML)</label>
+                {{ form.body_html }}
+            </div>
+
+            <button class="btn btn-primary">Salvează</button>
+            <a class="btn btn-secondary" href="{% url 'template_list' %}">Renunță</a>
+        </form>
+    </div>
+
+    <!-- Sidebar cu câmpuri -->
+    <div class="col-md-3">
+        <h5>🧩 Câmpuri disponibile</h5>
+
+        <ul class="list-group">
+            {% for f in fields %}
+                <li class="list-group-item field-insert"
+                    data-value="{{ f.placeholder|escape }}">
+                    {{ f.name }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+<!-- 🔥 ATENȚIE — întâi CKEDITOR, apoi scriptul tău 🔥 -->
+
+<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.field-insert').forEach(item => {
+        item.addEventListener('click', () => {
+            const value = item.dataset.value;
+
+            // Editor există?
+            if (CKEDITOR.instances['id_body_html']) {
+                CKEDITOR.instances['id_body_html'].insertText(value);
+            } else {
+                console.error("CKEditor nu este încă încărcat");
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="h5 mb-3">Ești sigur că vrei să ștergi: {{ object }} ?</h1>
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Da, șterge</button>
+  <a href="javascript:history.back()" class="btn btn-secondary">Renunță</a>
+</form>
+{% endblock %}

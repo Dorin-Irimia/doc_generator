@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Cetățean{% endblock %}
+{% block content %}
+<h1 class="h4 mb-3">
+  {% if citizen %}Editează cetățean{% else %}Cetățean nou{% endif %}
+</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}
+          <div class="form-text">{{ field.help_text }}</div>
+        {% endif %}
+        {{ field.errors }}
+      </div>
+  {% endfor %}
+
+  <button class="btn btn-primary">Salvează</button>
+  <a class="btn btn-secondary" href="{% url 'citizen_list' %}">Renunță</a>
+</form>
+
+{% endblock %}
